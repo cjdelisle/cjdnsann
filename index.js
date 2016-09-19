@@ -22,7 +22,7 @@ const EncodingScheme = require('./EncodingScheme');
 
 const MINSIZE = module.exports.MINSIZE = 120;
 
-const parseEntities = module.exports.parseEntities = (x, bytes) => {
+const parseEntities = (x, bytes) => {
     const out = [];
     while (x < bytes.length) {
         if (bytes[x] === 0) { throw new Error("0 length entity in message"); }
