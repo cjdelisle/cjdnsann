@@ -139,6 +139,7 @@ the types of entities are:
 
 * EncodingScheme 0
 * Peer 1
+* Version 2
 
 Entity messages all begin with the length of the entity such that future entities can be added and
 skipped over by older versions of the parser. Entities longer than 255 or shorter than 1 byte are
@@ -180,9 +181,7 @@ The packet diagram is as follows:
       +                                                               +
    24 |                                                               |
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   28 |                                                               |
-      +                             label                             +
-   32 |                                                               |
+   28 |                             label                             |
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ```
 
@@ -207,5 +206,23 @@ especially if the sender sends a lot of traffic. See cjdns/switch/Penalty.h
 * **Peer IPv6**: The cjdns IPv6 of the peer from which this node can be reached.
 * **Label**: The label fragment (Director) which should be used for constructing a label for
 reaching the announcer from the peer. This may need to be recoded depending on the encodingForm
-of the announcment for the link which was used to reach the peer. A label of 0 indicates that the
-route is being withdrawn and it is nolonger usable.
+of the announcement for the link which was used to reach the peer. A label of 0 indicates that the
+route is being withdrawn and it is nolonger usable. This is limited to 32 bits because 32 bits is
+the largest Director that can be represented in an EncodingScheme.
+
+
+#### Version Entity
+
+This type of entity tells the protocol version of the node sending it.
+
+```
+                       1               2               3
+       0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    0 |     length    |      type     |             version           |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+```
+
+* **length**: As per the Entity definition, always 4
+* **type**: As per the Entity definition, always 2
+* **version**: Big endian representation of the protocol version of the node

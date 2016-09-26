@@ -16,15 +16,15 @@
 
 const Cjdnskeys = require('cjdnskeys');
 
-const SIZE = module.exports.SIZE = 36;
+const SIZE = module.exports.SIZE = 32;
 const TYPE = module.exports.TYPE = 1;
 
 const parse = module.exports.parse = (hdrBytes) => {
-    if (hdrBytes.length !== SIZE) { throw new Error("runt"); }
+    if (hdrBytes.length < SIZE) { throw new Error("runt"); }
     let x = 0;
     const length = hdrBytes[x++];
     const type = hdrBytes[x++];
-    if (length !== SIZE) { throw new Error("invalid length"); }
+    if (length !== SIZE) { throw new Error("invalid length " + length); }
     if (type !== TYPE) { throw new Error("invalid type"); }
     const encodingFormNum = hdrBytes[x++];
     const flags = hdrBytes[x++];
@@ -33,12 +33,13 @@ const parse = module.exports.parse = (hdrBytes) => {
     const latency = hdrBytes.readUInt16BE(x); x += 2;
     const penalty = hdrBytes.readUInt16BE(x); x += 2;
     const ipv6Bytes = hdrBytes.slice(x, x += 16);
-    const labelBytes = hdrBytes.slice(x, x += 8);
+    const labelBytes = hdrBytes.slice(x, x += 4);
     if (x !== SIZE) { throw new Error(); }
 
     const mtu = mtu8 * 8;
     const ipv6 = Cjdnskeys.ip6BytesToString(ipv6Bytes);
-    const label = labelBytes.toString('hex').replace(/[0-9a-f]{4}/g, (x) => (x + '.')).slice(0,-1);
+    const label = '0000.0000' +
+        labelBytes.toString('hex').replace(/[0-9a-f]{4}/g, (x) => (x + '.')).slice(0,-1);
 
     return Object.freeze({
         type: 'Peer',

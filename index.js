@@ -19,6 +19,7 @@ const Cjdnskeys = require('cjdnskeys');
 const Sodium = require('libsodium-wrappers');
 const Peer = require('./Peer');
 const EncodingScheme = require('./EncodingScheme');
+const Version = require('./Version');
 
 const MINSIZE = module.exports.MINSIZE = 120;
 
@@ -31,6 +32,8 @@ const parseEntities = (x, bytes) => {
             out.push(Peer.parse(bytes.slice(x, x += bytes[x])));
         } else if (bytes[x+1] === EncodingScheme.TYPE) {
             out.push(EncodingScheme.parse(bytes.slice(x, x += bytes[x])));
+        } else if (bytes[x+1] === Version.TYPE) {
+            out.push(Version.parse(bytes.slice(x, x += bytes[x])));
         } else {
             console.log("unrecognized message of length [" + bytes[x] + "] and type [" +
                 bytes[x+1] + "]");
@@ -79,8 +82,7 @@ const parse = module.exports.parse = (hdrBytes) => {
         ver: ver,
         isReset: isReset,
         timestamp: timestamp.toString(),
-        peers: Object.freeze(peers),
-        encodingScheme: Object.freeze(encodingScheme),
+        entities: Object.freeze(entities),
         binary: hdrBytes
     });
 };
