@@ -38,7 +38,7 @@ const parse = module.exports.parse = (hdrBytes) => {
 
     const mtu = mtu8 * 8;
     const ipv6 = Cjdnskeys.ip6BytesToString(ipv6Bytes);
-    const label = '0000.0000' +
+    const label = '0000.0000.' +
         labelBytes.toString('hex').replace(/[0-9a-f]{4}/g, (x) => (x + '.')).slice(0,-1);
 
     return Object.freeze({
