@@ -1,4 +1,4 @@
-/* vim: set expandtab ts=4 sw=4: */
+/*@flow*/
 /*
  * You may redistribute this program and/or modify it under the terms of
  * the GNU General Public License as published by the Free Software Foundation,
@@ -17,7 +17,7 @@
 const SIZE = module.exports.SIZE = 4;
 const TYPE = module.exports.TYPE = 2;
 
-const parse = module.exports.parse = (hdrBytes) => {
+const parse = module.exports.parse = (hdrBytes /*:Buffer*/) => {
     if (hdrBytes.length < SIZE) { throw new Error("runt"); }
     let x = 0;
     const length = hdrBytes[x++];
