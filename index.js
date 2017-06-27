@@ -44,7 +44,7 @@ const parseEntities = (x, bytes) => {
     return out;
 };
 
-const parse = module.exports.parse = (hdrBytes /*:Buffer*/) => {
+const parse = module.exports.parse = (hdrBytes /*:Buffer*/, noSigCheck /*:?boolean*/) => {
     if (hdrBytes.length < MINSIZE) { throw new Error("runt"); }
     let x = 0;
     const signature = hdrBytes.slice(x, x += 64);
@@ -57,7 +57,9 @@ const parse = module.exports.parse = (hdrBytes /*:Buffer*/) => {
     BufferShift.shr(timestampVersionFlagsBytes, 4);
     const timestamp = timestampVersionFlagsBytes.toString('hex');
 
-    if (!Sodium.crypto_sign_verify_detached(signature, hdrBytes.slice(64), pubSigningKey)) {
+    if (!noSigCheck &&
+        !Sodium.crypto_sign_verify_detached(signature, hdrBytes.slice(64), pubSigningKey))
+    {
         throw new Error('signature verification failed');
     }
 
