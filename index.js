@@ -14,6 +14,7 @@
  */
 'use strict';
 
+const Crypto = require('crypto');
 const BufferShift = require('buffershift');
 const Cjdnskeys = require('cjdnskeys');
 const Sodium = require('libsodium-wrappers');
@@ -85,6 +86,7 @@ const parse = module.exports.parse = (hdrBytes /*:Buffer*/, noSigCheck /*:?boole
         isReset: isReset,
         timestamp: timestamp.toString(),
         entities: Object.freeze(entities),
-        binary: hdrBytes
+        binary: hdrBytes,
+        hash: Crypto.createHash('sha512').update(hdrBytes).digest('hex')
     });
 };
