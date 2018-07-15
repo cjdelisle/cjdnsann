@@ -17,7 +17,11 @@
 const Crypto = require('crypto');
 const BufferShift = require('buffershift');
 const Cjdnskeys = require('cjdnskeys');
+
 const Sodium = require('libsodium-wrappers');
+// https://github.com/jedisct1/libsodium.js/issues/59
+process.removeAllListeners("uncaughtException");
+
 const Peer = require('./Peer');
 const EncodingScheme = require('./EncodingScheme');
 const Version = require('./Version');
