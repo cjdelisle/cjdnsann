@@ -1,4 +1,5 @@
 /*@flow*/
+'use strict';
 const Cjdnsann = require('./index');
 
 const ANNOUNCEMENT = new Buffer(
