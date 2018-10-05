@@ -33,3 +33,26 @@ console.log(Cjdnsann.parse(new Buffer(
     '200100000000fffffffffffffc928136dc1fe6e04ef6a6dd7187b85f00000015',
 
     'hex')));
+
+// See: cjdns/subnode/test/LinkState_test.c / staticTest()
+let x = Cjdnsann.LinkState.parse(new Buffer(
+    '200306000000000000' +
+    '04' + '10' +
+    '13' + '00' + '01' +
+    '12' + '00' + '02' +
+    '13' + '00' + '02' +
+    '13' + '00' + '00' +
+    '14' + '00' + '03' +
+    '12' + '00' + '01' +
+    '13' + '00' + '01', 'hex'));
+const n = null;
+const gold = {
+  type: 'LinkState',
+  nodeId: 4,
+  startingPoint: 16,
+  lagSlots: [ 19, 19, 20, 18, 19, n, n, n, n, n, n, n, n, n, n, n, 19, 18 ],
+  dropSlots: [ 0, 0, 0, 0, 0, n, n, n, n, n, n, n, n, n, n, n, 0, 0 ],
+  kbRecvSlots: [ 2, 0, 3, 1, 1, n, n, n, n, n, n, n, n, n, n, n, 1, 2 ]
+};
+if (JSON.stringify(x) !== JSON.stringify(gold)) { throw new Error(); }
+//console.log(x);

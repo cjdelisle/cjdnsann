@@ -22,9 +22,10 @@ const Sodium = require('libsodium-wrappers');
 // https://github.com/jedisct1/libsodium.js/issues/59
 process.removeAllListeners("uncaughtException");
 
-const Peer = require('./Peer');
-const EncodingScheme = require('./EncodingScheme');
-const Version = require('./Version');
+const Peer = module.exports.Peer = require('./Peer');
+const EncodingScheme = module.exports.EncodingScheme = require('./EncodingScheme');
+const Version = module.exports.Version = require('./Version');
+const LinkState = module.exports.LinkState = require('./LinkState');
 
 const MINSIZE = module.exports.MINSIZE = 120;
 
@@ -39,6 +40,8 @@ const parseEntities = (x, bytes) => {
             out.push(EncodingScheme.parse(bytes.slice(x, x += bytes[x])));
         } else if (bytes[x+1] === Version.TYPE) {
             out.push(Version.parse(bytes.slice(x, x += bytes[x])));
+        } else if (bytes[x+1] === LinkState.TYPE) {
+            out.push(LinkState.parse(bytes.slice(x, x += bytes[x])));
         } else {
             console.log("unrecognized message of length [" + bytes[x] + "] and type [" +
                 bytes[x+1] + "]");
