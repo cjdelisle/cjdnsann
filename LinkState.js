@@ -37,15 +37,15 @@ const VarInt_pop = (iter) => {
             out |= iter.buf[++iter.i]; out <<= 8;
             out |= iter.buf[++iter.i]; out <<= 8;
             out |= iter.buf[++iter.i]; out <<= 8;
-            //Gcc_FALLTHRU
+            /* falls through */
         case 0xfe:
             out |= iter.buf[++iter.i]; out <<= 8;
             out |= iter.buf[++iter.i]; out <<= 8;
-            //Gcc_FALLTHRU
+            /* falls through */
         case 0xfd:
             out |= iter.buf[++iter.i]; out <<= 8;
             iter.i++;
-            //Gcc_FALLTHRU
+            /* falls through */
         default:
             out |= iter.buf[iter.i++];
     }
