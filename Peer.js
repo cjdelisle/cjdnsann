@@ -29,9 +29,8 @@ const parse = module.exports.parse = (hdrBytes /*:Buffer*/) => {
     const encodingFormNum = hdrBytes[x++];
     const flags = hdrBytes[x++];
     const mtu8 = hdrBytes.readUInt16BE(x); x += 2;
-    const drops = hdrBytes.readUInt16BE(x); x += 2;
-    const latency = hdrBytes.readUInt16BE(x); x += 2;
-    const penalty = hdrBytes.readUInt16BE(x); x += 2;
+    const peerNum = hdrBytes.readUInt16BE(x); x += 2;
+    const unused = hdrBytes.readUInt32BE(x); x += 4;
     const ipv6Bytes = hdrBytes.slice(x, x += 16);
     const labelBytes = hdrBytes.slice(x, x += 4);
     if (x !== SIZE) { throw new Error(); }
@@ -46,9 +45,8 @@ const parse = module.exports.parse = (hdrBytes /*:Buffer*/) => {
         ipv6: ipv6,
         label: label,
         mtu: mtu,
-        drops: drops,
-        latency: latency,
-        penalty: penalty,
+        peerNum: peerNum,
+        unused: unused,
         encodingFormNum: encodingFormNum,
         flags: flags
     });
