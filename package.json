@@ -1,6 +1,6 @@
 {
   "name": "cjdnsann",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "descrption": "tools for handling cjdns reachability announcement messages",
   "license": "GPL-3.0+",
   "repository": "https://github.com/cjdelisle/cjdnsann",

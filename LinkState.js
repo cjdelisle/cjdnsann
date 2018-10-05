@@ -77,7 +77,6 @@ module.exports.parse = (hdrBytes /*:Buffer*/) => {
     };
     for (let i = out.startingPoint; ; i = (i + 1) % SLOTS) {
         if (it.i === hdrBytes.length) { break; }
-        console.log("parse");
         out.lagSlots[i] = VarInt_pop(it);
         out.dropSlots[i] = VarInt_pop(it);
         out.kbRecvSlots[i] = VarInt_pop(it);
