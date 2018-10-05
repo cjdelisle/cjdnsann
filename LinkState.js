@@ -55,7 +55,6 @@ const VarInt_pop = (iter) => {
 };
 
 module.exports.parse = (hdrBytes /*:Buffer*/) => {
-    console.log(hdrBytes.toString('hex'));
     if (hdrBytes.length < 3) { throw new Error("runt"); }
     let x = 0;
     const length = hdrBytes[x++];
