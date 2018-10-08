@@ -5,10 +5,10 @@
   "license": "GPL-3.0+",
   "repository": "https://github.com/cjdelisle/cjdnsann",
   "dependencies": {
-    "cjdnskeys": "~0.1.0",
-    "libsodium-wrappers": "~0.3.0",
+    "buffershift": "~0.0.1",
     "cjdnsencode": "~0.0.2",
-    "buffershift": "~0.0.1"
+    "cjdnskeys": "~0.1.0",
+    "sodium-native": "^2.2.2"
   },
   "devDependencies": {
     "flow-bin": "^0.42.0",

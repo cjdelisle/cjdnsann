@@ -18,9 +18,7 @@ const Crypto = require('crypto');
 const BufferShift = require('buffershift');
 const Cjdnskeys = require('cjdnskeys');
 
-const Sodium = require('libsodium-wrappers');
-// https://github.com/jedisct1/libsodium.js/issues/59
-process.removeAllListeners("uncaughtException");
+const Sodium = require('sodium-native');
 
 const Peer = module.exports.Peer = require('./Peer');
 const EncodingScheme = module.exports.EncodingScheme = require('./EncodingScheme');
@@ -71,8 +69,8 @@ const parse = module.exports.parse = (hdrBytes /*:Buffer*/, noSigCheck /*:?boole
         throw new Error('signature verification failed');
     }
 
-    const curve25519KeyBin =
-        Sodium.crypto_sign_ed25519_pk_to_curve25519(pubSigningKey, 'uint8array');
+    const curve25519KeyBin = new Buffer(32);
+    Sodium.crypto_sign_ed25519_pk_to_curve25519(curve25519KeyBin, pubSigningKey);
     const nodePubKey = Cjdnskeys.keyBytesToString(curve25519KeyBin);
     const nodeIp = Cjdnskeys.publicToIp6(nodePubKey);
 
