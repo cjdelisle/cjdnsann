@@ -33,21 +33,21 @@ const VarInt_pop = (iter) => {
     }
     switch (byte) {
         case 0xff:
-            out |= iter.buf[++iter.i]; out <<= 8;
-            out |= iter.buf[++iter.i]; out <<= 8;
-            out |= iter.buf[++iter.i]; out <<= 8;
-            out |= iter.buf[++iter.i]; out <<= 8;
+            out += iter.buf[++iter.i]; out *= 256;
+            out += iter.buf[++iter.i]; out *= 256;
+            out += iter.buf[++iter.i]; out *= 256;
+            out += iter.buf[++iter.i]; out *= 256;
             /* falls through */
         case 0xfe:
-            out |= iter.buf[++iter.i]; out <<= 8;
-            out |= iter.buf[++iter.i]; out <<= 8;
+            out += iter.buf[++iter.i]; out *= 256;
+            out += iter.buf[++iter.i]; out *= 256;
             /* falls through */
         case 0xfd:
-            out |= iter.buf[++iter.i]; out <<= 8;
+            out += iter.buf[++iter.i]; out *= 256;
             iter.i++;
             /* falls through */
         default:
-            out |= iter.buf[iter.i++];
+            out += iter.buf[iter.i++];
     }
     //iter->ptr = bytes;
     //if (_out) { *_out = out; }
